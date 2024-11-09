@@ -16,7 +16,10 @@ describe('Orange HRM Testes', () => {
     loginPage.loginWithUser(userData.userSuccess.username, userData.userSuccess.password)
     dashBoard.checkDashBoardPage()
     menuPage.accessMyInfo()
-    myInfoPage.myInfoData()
+    myInfoPage.nameData()
+    myInfoPage.idData()
+    myInfoPage.statusData()
+    myInfoPage.chekSubmitButton()
   })
 
   it('Login - Fail', () => {
