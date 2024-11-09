@@ -2,8 +2,9 @@ const selectorsList = {
   usernameField:"[name='username']",
   passwordField:"[name='password']",
   loginButton:"[type='submit']",
-  sectionTitelToBar:".oxd-topbar-header-breadcrumb-module",
-  worngCredentialAlert: "[role='alert']"
+  sectionTitleToBar:".oxd-topbar-header-breadcrumb-module",
+  dashboardGrid: ".orangehrm-dashboard-grid",
+  wrongCredentialAlert: "[role='alert']"
 }
 
 describe('Orange HRM Testes', () => {
@@ -13,13 +14,13 @@ describe('Orange HRM Testes', () => {
     cy.get(selectorsList.passwordField).type('admin123')
     cy.get(selectorsList.loginButton).click()
     cy.location('pathname').should('equal','/web/index.php/dashboard/index')
-    cy.get(selectorsList.sectionTitelToBar).contains('Dashboard')
+    cy.get(selectorsList.dashboardGrid)
   })
   it('Login - Fail', () => {
     cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
     cy.get(selectorsList.usernameField).type('test')
     cy.get(selectorsList.passwordField).type('test')
     cy.get(selectorsList.loginButton).click()
-    cy.get(selectorsList.worngCredentialAlert)
+    cy.get(selectorsList.wrongCredentialAlert)
   })
 })
