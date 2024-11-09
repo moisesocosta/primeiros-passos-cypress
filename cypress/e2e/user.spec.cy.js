@@ -16,7 +16,7 @@ describe('Orange HRM Testes', () => {
     dateField: "[placeholder='yyyy-dd-mm']",
     dateCloseButton: ".--close",
     submitButton: "[type='submit']",
-    nationalityField: '.oxd-select-wrapper'
+    genericCombobox: '.oxd-select-wrapper'
   }
 
   it.only('User Info Update - Success', () => {
@@ -34,12 +34,15 @@ describe('Orange HRM Testes', () => {
     cy.get(selectorsList.genericField).eq(5).clear().type('Teste2')
     cy.get(selectorsList.genericField).eq(6).clear().type('2024-14-10')
     cy.get(selectorsList.dateCloseButton).click()
+    cy.get(selectorsList.genericCombobox).eq(0).click()
+    cy.get('.oxd-select-dropdown > :nth-child(1)').click()
+    cy.get(selectorsList.genericCombobox).eq(1).click()
+    cy.get('.oxd-select-dropdown > :nth-child(3)').click()
     cy.get(selectorsList.submitButton).eq(0).click()
     cy.get('body').should('contain', 'Successfully Updated')
     cy.get('.oxd-toast-close')
-    //cy.get(selectorsList.nationalityField).eq(0).type('Brazilian')
   })
-  
+
   it('Login - Fail', () => {
     cy.visit('/auth/login')
     cy.get(selectorsList.usernameField).type(userData.userFail.username)
