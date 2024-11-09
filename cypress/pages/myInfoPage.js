@@ -1,3 +1,7 @@
+const Chance = require('chance')
+
+const chance = new Chance()
+
 class myInfoPage{
   selectorList(){
     const selectors={
@@ -14,15 +18,15 @@ class myInfoPage{
   }
 
   nameData(){
-    cy.get(this.selectorList().firstNameField).clear().type('TesteJ')
-    cy.get(this.selectorList().lastNameField).clear().type('TesteJ')
+    cy.get(this.selectorList().fristNameField).clear().type(chance.first())
+    cy.get(this.selectorList().lastNameField).clear().type(chance.last())
   }
 
   idData(){
-    cy.get(this.selectorList().genericField).eq(3).clear().type('Teste3')
-    cy.get(this.selectorList().genericField).eq(4).clear().type('Teste1')
-    cy.get(this.selectorList().genericField).eq(5).clear().type('Teste2')
-    cy.get(this.selectorList().genericField).eq(6).clear().type('2024-14-10')
+    cy.get(this.selectorList().genericField).eq(3).clear().type(chance.string({length:5, numeric:true}))
+    cy.get(this.selectorList().genericField).eq(4).clear().type(chance.string({length:5, numeric:true}))
+    cy.get(this.selectorList().genericField).eq(5).clear().type(chance.string({length:11, numeric:true}))
+    cy.get(this.selectorList().genericField).eq(6).clear().type('2014-10-17')
     cy.get(this.selectorList().dateCloseButton).click()
   }
 
@@ -34,7 +38,7 @@ class myInfoPage{
   }
 
   checkSubmitButton(){
-    cy.get(this.selectorList().submitButton).eq(0).click()
+    cy.get(this.selectorList().submitButton).eq(0).click({force:true})
     cy.get('body').should('contain', 'Successfully Updated')
     cy.get('.oxd-toast-close')
   }

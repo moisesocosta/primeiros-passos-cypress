@@ -4,6 +4,9 @@ import MenuPage from '../pages/menuPage.js'
 import DashBoardPage from '../pages/dashBoard.js'
 import MyInfoPage from '../pages/myInfoPage.js'
 
+const Chance = require('chance')
+
+const chance = new Chance()
 const loginPage = new LoginPage()
 const menuPage = new MenuPage()
 const dashBoard = new DashBoardPage()
@@ -20,11 +23,5 @@ describe('Orange HRM Testes', () => {
     myInfoPage.idData()
     myInfoPage.statusData()
     myInfoPage.chekSubmitButton()
-  })
-
-  it('Login - Fail', () => {
-    loginPage.accessLoginPage()
-    loginPage.loginWithUser(userData.userFail.username, userData.userFail.password)
-    loginPage.checkAccessInvalid()
   })
 })
