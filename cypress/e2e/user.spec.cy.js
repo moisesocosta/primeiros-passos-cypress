@@ -4,9 +4,6 @@ import MenuPage from '../pages/menuPage.js'
 import DashBoardPage from '../pages/dashBoard.js'
 import MyInfoPage from '../pages/myInfoPage.js'
 
-const Chance = require('chance')
-
-const chance = new Chance()
 const loginPage = new LoginPage()
 const menuPage = new MenuPage()
 const dashBoard = new DashBoardPage()
