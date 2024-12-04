@@ -1,0 +1,39 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+
+      - name: Install pnpm
+        run: | 
+            npm install -g pnpm
+            echo "$(npm bin -g)" >> $GITHUB_PATH
+            echo "LIBGL_ALWAYS_INDIRECT=1" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: 'npm run dev'
+          build: 'npm run build'
+
+      - name: Upload Cypress Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Cypress Result
+          path: |
+            cypress/screenshots
+            cypress/videos
+            cypress/results
+          if-no-files-found: ignore

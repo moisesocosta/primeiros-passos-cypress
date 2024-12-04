@@ -1,47 +1,51 @@
-const Chance = require('chance')
-
-const chance = new Chance()
-
-class myInfoPage{
-  selectorList(){
-    const selectors={
-      firstNameField: "[placeholder='First Name']",
-      lastNameField: "[placeholder='Last Name']",
+class MyInfoPage {
+  selectorsList() {
+    const selectors = {
+      firstNameField: "[name='firstName']",
+      middleNameField: "[name='middleName']",
+      lastNameField: "[name='lastName']",
       genericField: ".oxd-input--active",
       dateField: "[placeholder='yyyy-dd-mm']",
       dateCloseButton: ".--close",
-      submitButton: "[type='submit']",
-      genericCombobox: '.oxd-select-wrapper'
+      genericCombobox: ".oxd-select-text--arrow",
+      selectBrazil: ".oxd-select-dropdown > :nth-child(27)",
+      selectSingle: '.oxd-select-dropdown > :nth-child(2)',
+      selectMale: ':nth-child(1) > :nth-child(2) > .oxd-radio-wrapper > label > .oxd-radio-input',
+      submitButton: "[type='submit']",               
     }
 
     return selectors
   }
 
-  nameData(){
-    cy.get(this.selectorList().fristNameField).clear().type(chance.first())
-    cy.get(this.selectorList().lastNameField).clear().type(chance.last())
+  fillPersonalDetails (firstName, middleName, lastName) {
+    cy.get(this.selectorsList().firstNameField).clear().type(firstName)
+    cy.get(this.selectorsList().middleNameField).clear().type(middleName)
+    cy.get(this.selectorsList().lastNameField).clear().type(lastName)
+  }
+  
+  fillEmployeeDetails (employeeId, otherId, driversLicenseId, driversLicenseDate) {    
+    cy.get(this.selectorsList().genericField).eq(3).clear().type(employeeId)
+    cy.get(this.selectorsList().genericField).eq(4).clear().type(otherId)
+    cy.get(this.selectorsList().genericField).eq(5).clear().type(driversLicenseId)
+    cy.get(this.selectorsList().dateField).eq(0).clear().type(driversLicenseDate)
+    cy.get(this.selectorsList().dateCloseButton).click() 
   }
 
-  idData(){
-    cy.get(this.selectorList().genericField).eq(3).clear().type(chance.string({length:5, numeric:true}))
-    cy.get(this.selectorList().genericField).eq(4).clear().type(chance.string({length:5, numeric:true}))
-    cy.get(this.selectorList().genericField).eq(5).clear().type(chance.string({length:11, numeric:true}))
-    cy.get(this.selectorList().genericField).eq(6).clear().type('2014-10-17')
-    cy.get(this.selectorList().dateCloseButton).click()
+  selectPersonalDetails(birthdayDate) {
+    cy.get(this.selectorsList().genericCombobox).eq(0).click()    
+    cy.get(this.selectorsList().selectBrazil).click()
+    cy.get(this.selectorsList().genericCombobox).eq(1).click()
+    cy.get(this.selectorsList().selectSingle).click()
+    cy.get(this.selectorsList().dateField).eq(1).clear().type(birthdayDate)
+    cy.get(this.selectorsList().dateCloseButton).click()
+    cy.get(this.selectorsList().selectMale).click()
   }
 
-  statusData(){
-    cy.get(this.selectorList().genericCombobox).eq(0).click()
-    cy.get('.oxd-select-dropdown > :nth-child(1)').click()
-    cy.get(this.selectorList().genericCombobox).eq(1).click()
-    cy.get('.oxd-select-dropdown > :nth-child(3)').click()
-  }
-
-  checkSubmitButton(){
-    cy.get(this.selectorList().submitButton).eq(0).click({force:true})
-    cy.get('body').should('contain', 'Successfully Updated')
-    cy.get('.oxd-toast-close')
+  saveForm() {   
+    cy.get(this.selectorsList().submitButton).eq(0).click({force: true})
+    cy.get("body").should("contain", "Successfully Updated")
+    cy.get(".oxd-toast-close")
   }
 }
 
-export default myInfoPage
+export default MyInfoPage

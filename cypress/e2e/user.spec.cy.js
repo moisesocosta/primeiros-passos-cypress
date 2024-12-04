@@ -1,24 +1,26 @@
-import userData from '../fixtures/users/userData.json'
-import LoginPage from '../pages/loginPage.js'
-import MenuPage from '../pages/menuPage.js'
-import DashBoardPage from '../pages/dashBoard.js'
-import MyInfoPage from '../pages/myInfoPage.js'
+import userData from "../fixtures/user-data.json"
+import LoginPage from "../pages/loginPage.js"
+import DashboardPage from "../pages/dashboardPage.js"
+import MenuPage from "../pages/menuPage.js"
+import MyInfoPage from "../pages/myinfoPage.js"
 
+const Chance = require('chance');
+
+const chance = new Chance();
 const loginPage = new LoginPage()
+const dashboardPage = new DashboardPage()
 const menuPage = new MenuPage()
-const dashBoard = new DashBoardPage()
 const myInfoPage = new MyInfoPage()
 
-describe('Orange HRM Testes', () => {
-
+describe('User Info - Orange HRM Tests', () => {
   it('User Info Update - Success', () => {
     loginPage.accessLoginPage()
     loginPage.loginWithUser(userData.userSuccess.username, userData.userSuccess.password)
-    dashBoard.checkDashBoardPage()
+    dashboardPage.checkDashboardPage()
+    menuPage.accessPerfomance()
     menuPage.accessMyInfo()
-    myInfoPage.nameData()
-    myInfoPage.idData()
-    myInfoPage.statusData()
-    myInfoPage.chekSubmitButton()
+    myInfoPage.fillPersonalDetails(chance.first(), "F.", chance.last({ nationality: 'jp' }))
+    myInfoPage.fillEmployeeDetails("33112", "7587", "123456", "2025-12-25")
+    myInfoPage.saveForm("1987-07-05")  
   })
 })
